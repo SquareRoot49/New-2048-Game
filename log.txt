@@ -13,3 +13,19 @@ Set up the initial Pygame launcher logic:
 - Each block is launched upward with an initial velocity and affected by gravity
 - Allowed multiple blocks to exist and update simultaneously
 - Used colored rectangles to represent blocks
+
+## Prompt 2 – 2025-07-14
+
+**Prompt:**  
+Change the current Pygame block launcher so that each block is fired from the bottom-left corner of the screen with both a horizontal and a vertical velocity. The block should move to the right while also moving upward initially, and then fall down due to gravity, following a parabolic trajectory. Use fixed initial values for horizontal and vertical velocity, and apply gravity to simulate downward acceleration. Allow multiple blocks to exist and update simultaneously.
+
+**Files Modified:**  
+- `pygame_block_launcher.py`  
+
+**Description of Change:**  
+Implemented full 2D projectile motion:
+- Each block is now created at the bottom-left corner of the screen
+- Blocks are given both a horizontal velocity (`vx`) and an initial upward vertical velocity (`vy`)
+- Gravity is applied to the vertical velocity, creating a parabolic motion path
+- Blocks fly upward and forward at first, then curve downwards as gravity increases `vy`
+- Multiple blocks can move independently with their own motion
