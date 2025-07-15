@@ -108,4 +108,21 @@ Refactor the block merging logic to follow 2048-style mechanics. A block should 
 - Ensured merged blocks replace the old one at correct position  
 - Prevented duplicate merges or overlapping state updates
 
+## Prompt 7 – 2025-07-15
+
+**Prompt:**  
+Implement horizontal movement and merging mechanics like in the original 2048 game:
+- Pressing the D key causes all blocks to move right
+- Pressing the A key moves them left
+- Blocks of the same number in a row merge into one with double the value
+- Merges occur only once per move per block
+
+**Files Modified:**  
+- `pygame_block_launcher.py`
+
+**Description of Change:**  
+- Handled key input for horizontal movement (A for left, D for right)
+- Implemented row-wise sliding and merging of blocks
+- Ensured merged blocks cannot merge again within the same move
+- Updated grid structure after each movement
 
