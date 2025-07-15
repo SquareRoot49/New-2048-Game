@@ -88,3 +88,24 @@ Use Pygame's Rect collision detection to check for overlaps between blocks. Make
 - Used `pygame.Rect.colliderect()` for block-to-block collision detection
 - Ensured visual rendering and logic update occur correctly for both lists
 
+## Prompt 6 – 2025-07-15
+
+**Prompt:**  
+Refactor the block merging logic to follow 2048-style mechanics. A block should only merge with a stationary block below it **after it has landed**. Specifically:
+- Only consider merging after a block hits the ground or another stationary block
+- Check if the block it landed on has the same number. If so, remove both and replace with a new merged block at the same position
+- Do not merge during flight or horizontal collision
+- Ensure each block only merges once per landing
+- Prevent multiple merges into the same block in a single frame
+
+**Files Modified:**  
+- `pygame_block_launcher.py`
+
+**Description of Change:**  
+- Delayed merge logic to trigger only after landing  
+- Removed all in-flight merge checks  
+- Implemented vertical-only, post-landing merge behavior  
+- Ensured merged blocks replace the old one at correct position  
+- Prevented duplicate merges or overlapping state updates
+
+
