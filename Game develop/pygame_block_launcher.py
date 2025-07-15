@@ -1,25 +1,25 @@
 import pygame
 import sys
 import os
+import math
 
 # --- Settings ---
-SCREEN_WIDTH = 600
+SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 800
 BLOCK_SIZE = 40
 BLOCK_COLOR = (70, 130, 180)  # Steel Blue
 BLOCK_IMAGE_PATH = "block.png"  # Place an image named 'block.png' in the same folder if available
-HORIZONTAL_SPEED = 7  # Constant speed to the right
-VERTICAL_SPEED = -12  # Initial upward speed (negative is up)
+FIXED_VX = 15  # Fixed horizontal velocity (pixels per frame)
 GRAVITY = 0.35  # Gravity acceleration
 FPS = 60
 
 # --- Block Class ---
 class Block:
-    def __init__(self, x, y, image=None):
+    def __init__(self, x, y, vx, vy, image=None):
         self.x = x
         self.y = y
-        self.vx = HORIZONTAL_SPEED
-        self.vy = VERTICAL_SPEED
+        self.vx = vx
+        self.vy = vy
         self.image = image
         self.rect = pygame.Rect(self.x, self.y, BLOCK_SIZE, BLOCK_SIZE)
 
@@ -58,15 +58,24 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                # Launch a new block from the fixed bottom-left corner
-                blocks.append(Block(launch_x, launch_y, block_image))
+                # Target position
+                mx, my = event.pos
+                dx = mx - launch_x
+                dy = my - launch_y
+                if dx == 0:
+                    dx = 1  # Prevent division by zero
+                vx = FIXED_VX if dx > 0 else -FIXED_VX
+                t = abs(dx) / abs(vx)  # Time to reach target x
+                # Projectile formula: y = y0 + vy*t + 0.5*g*t^2 => vy = (y - y0 - 0.5*g*t^2) / t
+                vy = (dy - 0.5 * GRAVITY * t * t) / t
+                blocks.append(Block(launch_x, launch_y, vx, vy, block_image))
 
         # Update blocks
         for block in blocks:
             block.update()
 
-        # Remove blocks that move off the screen (right or bottom)
-        blocks = [b for b in blocks if b.x < SCREEN_WIDTH and b.y < SCREEN_HEIGHT]
+        # Remove blocks that move off the screen (right, left, top, or bottom)
+        blocks = [b for b in blocks if 0 <= b.x < SCREEN_WIDTH and 0 <= b.y < SCREEN_HEIGHT]
 
         # Draw everything
         screen.fill((30, 30, 30))  # Dark background
@@ -75,7 +84,7 @@ def main():
         
         # Instructions
         font = pygame.font.SysFont(None, 28)
-        text = font.render("Click to launch a block from bottom-left!", True, (220, 220, 220))
+        text = font.render("Click to launch a block that lands exactly at the mouse!", True, (220, 220, 220))
         screen.blit(text, (20, 20))
 
         pygame.display.flip()

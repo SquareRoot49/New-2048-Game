@@ -29,3 +29,20 @@ Implemented full 2D projectile motion:
 - Gravity is applied to the vertical velocity, creating a parabolic motion path
 - Blocks fly upward and forward at first, then curve downwards as gravity increases `vy`
 - Multiple blocks can move independently with their own motion
+
+## Prompt 3 – 2025-07-14
+
+**Prompt:**  
+Upgrade the Pygame block launcher so that each block is fired from the bottom-left corner and moves toward the position where the user clicks. Compute the direction vector from the launch point to the mouse click point, normalize it, and multiply by a fixed launch speed to get the initial velocity. Apply gravity so the block follows a curved arc toward the target. Allow multiple blocks to move at the same time.
+
+**Files Modified:**  
+- `pygame_block_launcher.py`  
+
+**Description of Change:**  
+Implemented direction-based projectile control:
+- Blocks are still fired from the bottom-left corner of the screen
+- On mouse click, the program calculates the vector from the launcher to the mouse position
+- This vector is normalized and scaled to a fixed initial speed (e.g., 10 px/frame)
+- The horizontal and vertical velocities (`vx`, `vy`) are set based on the click direction
+- Gravity is applied over time, affecting `vy`, resulting in a curved arc
+- Now the player can control the launch angle and trajectory by clicking different parts of the screen
