@@ -21,7 +21,7 @@ class Block:
         self.vx = vx
         self.vy = vy
         self.image = image
-        self.rect = pygame.Rect(self.x, self.y, BLOCK_SIZE, BLOCK_SIZE)
+        self.rect = pygame.Rect(int(self.x), int(self.y), BLOCK_SIZE, BLOCK_SIZE)
 
     def update(self):
         self.vy += GRAVITY
@@ -37,18 +37,13 @@ class Block:
         if self.x + BLOCK_SIZE > SCREEN_WIDTH:
             self.x = SCREEN_WIDTH - BLOCK_SIZE
             self.vx *= -1
-        # Bottom edge
-        if self.y + BLOCK_SIZE > SCREEN_HEIGHT:
-            self.y = SCREEN_HEIGHT - BLOCK_SIZE
-            self.vy = 0
-            self.vx = 0
         # (Optional: left edge, but not required by user)
 
         self.rect.topleft = (int(self.x), int(self.y))
 
     def draw(self, surface):
         if self.image:
-            surface.blit(self.image, (self.x, self.y))
+            surface.blit(self.image, (int(self.x), int(self.y)))
         else:
             pygame.draw.rect(surface, BLOCK_COLOR, self.rect)
 
@@ -65,7 +60,8 @@ def main():
         img = pygame.image.load(BLOCK_IMAGE_PATH).convert_alpha()
         block_image = pygame.transform.scale(img, (BLOCK_SIZE, BLOCK_SIZE))
 
-    blocks = []
+    active_blocks = []
+    received_blocks = []
     launch_x = 0
     launch_y = SCREEN_HEIGHT - BLOCK_SIZE
 
@@ -85,20 +81,61 @@ def main():
                 t = abs(dx) / abs(vx)  # Time to reach target x
                 # Projectile formula: y = y0 + vy*t + 0.5*g*t^2 => vy = (y - y0 - 0.5*g*t^2) / t
                 vy = (dy - 0.5 * GRAVITY * t * t) / t
-                blocks.append(Block(launch_x, launch_y, vx, vy, block_image))
+                active_blocks.append(Block(launch_x, launch_y, vx, vy, block_image))
 
-        # Update blocks
-        for block in blocks:
+        # Update active blocks
+        next_active_blocks = []
+        for block in active_blocks:
             block.update()
+            # Check for collision with any received block
+            collided = False
+            for rblock in received_blocks:
+                if block.rect.colliderect(rblock.rect):
+                    # Determine collision direction using center coordinates
+                    block_center = block.rect.center
+                    rblock_center = rblock.rect.center
+                    dx = abs(block_center[0] - rblock_center[0])
+                    dy = abs(block_center[1] - rblock_center[1])
+                    if dy > dx:
+                        # Vertical collision: accept the block
+                        block.vy = 0
+                        block.vx = 0
+                        block.rect.topleft = (int(block.x), int(block.y))
+                        received_blocks.append(block)
+                        collided = True
+                        break
+                    else:
+                        # Horizontal collision: reflect or stop horizontal motion
+                        block.vx *= -1
+                        # Optionally, you could also set block.vx = 0 to just stop
+            if collided:
+                continue
+            # Check for bottom collision (landed)
+            if block.y + BLOCK_SIZE >= SCREEN_HEIGHT:
+                block_center_x = block.x + BLOCK_SIZE / 2
+                if block_center_x > SCREEN_WIDTH / 2:
+                    block.y = SCREEN_HEIGHT - BLOCK_SIZE
+                    block.vy = 0
+                    block.vx = 0
+                    block.rect.topleft = (int(block.x), int(block.y))
+                    received_blocks.append(block)
+                continue
+            # Remove if block is completely below the screen
+            if block.y > SCREEN_HEIGHT:
+                continue
+            next_active_blocks.append(block)
+        active_blocks = next_active_blocks
 
         # Draw everything
         screen.fill((30, 30, 30))  # Dark background
-        for block in blocks:
+        for block in received_blocks:
+            block.draw(screen)
+        for block in active_blocks:
             block.draw(screen)
         
         # Instructions
         font = pygame.font.SysFont(None, 28)
-        text = font.render("Click to launch a block that lands exactly at the mouse! (Now with bounces)", True, (220, 220, 220))
+        text = font.render("Click to launch a block that lands exactly at the mouse! (Stacking supported)", True, (220, 220, 220))
         screen.blit(text, (20, 20))
 
         pygame.display.flip()

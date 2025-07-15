@@ -65,3 +65,26 @@ Implemented custom edge behavior:
 - Right boundary: blocks bounce by reversing horizontal velocity
 - Bottom boundary: blocks stop falling (vy = 0), and are pinned to the floor
 - Added logic to prevent blocks from moving outside the screen area
+
+## Prompt 5 – 2025-07-14
+
+**Prompt:**  
+Refactor the code to separate blocks into two lists:
+- `active_blocks`: for blocks that are still flying or falling
+- `received_blocks`: for blocks that have landed or been received
+
+Keep the existing boundary collision logic unchanged. Update the logic so that:
+1. If a block in `active_blocks` hits the bottom edge, it is moved into `received_blocks`
+2. If a block in `active_blocks` collides with any block in `received_blocks`, it is also moved into `received_blocks`
+
+Use Pygame's Rect collision detection to check for overlaps between blocks. Make sure to update both lists correctly during each frame.
+
+**Files Modified:**  
+- `pygame_block_launcher.py`  
+
+**Description of Change:**  
+- Introduced two lists: `active_blocks` and `received_blocks`
+- Blocks that hit the ground or collide with others are removed from `active_blocks` and added to `received_blocks`
+- Used `pygame.Rect.colliderect()` for block-to-block collision detection
+- Ensured visual rendering and logic update occur correctly for both lists
+
