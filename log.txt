@@ -126,3 +126,29 @@ Implement horizontal movement and merging mechanics like in the original 2048 ga
 - Ensured merged blocks cannot merge again within the same move
 - Updated grid structure after each movement
 
+## Prompt 8 – 2025-07-15
+
+**Prompt:**  
+Add grid snapping and 2048-style merging to the right half of the screen.
+
+The screen is split in half: the left half is a launch zone without grid; the right half is a grid-based landing zone.
+
+When a block reaches the right half, it should snap to the nearest empty grid cell.
+
+Implement 2048-style merging logic: pressing A moves all grid blocks left and merges same numbers; D moves right.
+
+Prevent stacking in a single cell unless merging.
+
+Fix issues like blocks not merging (e.g., multiple 16s) and floating blocks not falling to the bottom.
+
+**Files Modified:**  
+- main.py
+
+**Description of Change:**  
+- Split the window into a launch zone (left) and a grid zone (right)  
+- Implemented grid snapping when blocks enter the right half  
+- Added 2048-style merging logic for left (`A`) and right (`D`) movement  
+- Prevented incorrect stacking in grid cells  
+- Fixed multiple merge issues and ensured floating blocks fall to the bottom
+
+
