@@ -27,7 +27,24 @@ class Block:
         self.vy += GRAVITY
         self.x += self.vx
         self.y += self.vy
-        self.rect.topleft = (self.x, self.y)
+
+        # --- Boundary collision handling ---
+        # Top edge
+        if self.y < 0:
+            self.y = 0
+            self.vy *= -1
+        # Right edge
+        if self.x + BLOCK_SIZE > SCREEN_WIDTH:
+            self.x = SCREEN_WIDTH - BLOCK_SIZE
+            self.vx *= -1
+        # Bottom edge
+        if self.y + BLOCK_SIZE > SCREEN_HEIGHT:
+            self.y = SCREEN_HEIGHT - BLOCK_SIZE
+            self.vy = 0
+            self.vx = 0
+        # (Optional: left edge, but not required by user)
+
+        self.rect.topleft = (int(self.x), int(self.y))
 
     def draw(self, surface):
         if self.image:
@@ -74,9 +91,6 @@ def main():
         for block in blocks:
             block.update()
 
-        # Remove blocks that move off the screen (right, left, top, or bottom)
-        blocks = [b for b in blocks if 0 <= b.x < SCREEN_WIDTH and 0 <= b.y < SCREEN_HEIGHT]
-
         # Draw everything
         screen.fill((30, 30, 30))  # Dark background
         for block in blocks:
@@ -84,7 +98,7 @@ def main():
         
         # Instructions
         font = pygame.font.SysFont(None, 28)
-        text = font.render("Click to launch a block that lands exactly at the mouse!", True, (220, 220, 220))
+        text = font.render("Click to launch a block that lands exactly at the mouse! (Now with bounces)", True, (220, 220, 220))
         screen.blit(text, (20, 20))
 
         pygame.display.flip()

@@ -46,3 +46,22 @@ Implemented direction-based projectile control:
 - The horizontal and vertical velocities (`vx`, `vy`) are set based on the click direction
 - Gravity is applied over time, affecting `vy`, resulting in a curved arc
 - Now the player can control the launch angle and trajectory by clicking different parts of the screen
+
+## Prompt 4 – 2025-07-14
+
+**Prompt:**  
+Add boundary collision behavior to the projectile blocks:
+- If a block hits the **top edge** of the screen, reverse its vertical velocity (vy *= -1)
+- If it hits the **right edge**, reverse its horizontal velocity (vx *= -1)
+- If it hits the **bottom edge**, stop its downward motion by setting vy = 0 and keeping it at the bottom
+Ensure blocks remain inside the screen boundaries and continue updating after collisions.
+
+**Files Modified:**  
+- `pygame_block_launcher.py`  
+
+**Description of Change:**  
+Implemented custom edge behavior:
+- Top boundary: blocks bounce by reversing vertical velocity
+- Right boundary: blocks bounce by reversing horizontal velocity
+- Bottom boundary: blocks stop falling (vy = 0), and are pinned to the floor
+- Added logic to prevent blocks from moving outside the screen area
