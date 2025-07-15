@@ -1,0 +1,15 @@
+## Prompt 1 – 2025-07-14
+
+**Prompt:**  
+Create a simple Pygame demo where a square block is launched from the bottom of the screen when the user clicks the mouse. Each time the user clicks, a new block should be created and launched upward with a fixed speed and slight gravity effect. Display multiple blocks if the user clicks multiple times. Include basic gravity, motion update, and window setup. Use an image for the block if available, otherwise use a colored square. Provide clean and beginner-friendly Python code.
+
+**Files Modified:**  
+- `pygame_block_launcher.py`  
+
+**Description of Change:**  
+Set up the initial Pygame launcher logic:
+- Initialized Pygame window with screen size and frame rate
+- Created logic to spawn blocks when the user clicks
+- Each block is launched upward with an initial velocity and affected by gravity
+- Allowed multiple blocks to exist and update simultaneously
+- Used colored rectangles to represent blocks
