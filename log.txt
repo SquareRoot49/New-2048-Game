@@ -150,4 +150,27 @@ Fix issues like blocks not merging (e.g., multiple 16s) and floating blocks not 
 - Prevented incorrect stacking in grid cells  
 - Fixed multiple merge issues and ensured floating blocks fall to the bottom
 
+## Prompt 9 – 2025-07-18
+
+**Prompt:**  
+Help me package my Pygame project into a standalone `.app` for Mac using PyInstaller.
+
+I want to:  
+- Include the `assets` folder in the build.  
+- Use PyInstaller to generate a macOS `.app` bundle.  
+- Create a `build.sh` script that runs the correct PyInstaller command.  
+- Use `--add-data` properly for asset inclusion.  
+- Output the `.app` in the project root.
+
+**Files Modified:**  
+- build.sh  
+- main.py  
+- requirements.txt (if present)
+
+**Description of Change:**  
+- Created a `build.sh` script to automate building the app with PyInstaller  
+- Used `--add-data "assets:assets"` to include the assets folder in the `.app`  
+- Enabled `--windowed` and `--onefile` options to create a GUI app without terminal  
+- Ensured the resulting `.app` bundle is moved to the project root after build  
+- Verified compatibility with macOS ARM64 and Python 3.12 via Pyenv  
 
