@@ -1,8 +1,7 @@
 ## Prompt 1 – 2025-07-14
 
 **Prompt:**  
-Create a simple Pygame demo where a square block is launched from the bottom of the screen when the user clicks the mouse. Each time the user clicks, a new block should be created and launched upward with a fixed speed and slight gravity effect. Display multiple blocks if the user clicks multiple times. Include basic gravity, motion update, and window setup. Use an image for the block if available, otherwise use a colored square. Provide clean and beginner-friendly Python code.
-
+Create a simple Pygame demo where a square block is launched from the bottom of the screen when the user clicks the mouse. 
 **Files Modified:**  
 - `pygame_block_launcher.py`  
 
@@ -17,7 +16,7 @@ Set up the initial Pygame launcher logic:
 ## Prompt 2 – 2025-07-14
 
 **Prompt:**  
-Change the current Pygame block launcher so that each block is fired from the bottom-left corner of the screen with both a horizontal and a vertical velocity. The block should move to the right while also moving upward initially, and then fall down due to gravity, following a parabolic trajectory. Use fixed initial values for horizontal and vertical velocity, and apply gravity to simulate downward acceleration. Allow multiple blocks to exist and update simultaneously.
+Change the current Pygame block launcher so that each block is fired from the bottom-left corner of the screen with both a horizontal and a vertical velocity. 
 
 **Files Modified:**  
 - `pygame_block_launcher.py`  
@@ -33,7 +32,7 @@ Implemented full 2D projectile motion:
 ## Prompt 3 – 2025-07-14
 
 **Prompt:**  
-Upgrade the Pygame block launcher so that each block is fired from the bottom-left corner and moves toward the position where the user clicks. Compute the direction vector from the launch point to the mouse click point, normalize it, and multiply by a fixed launch speed to get the initial velocity. Apply gravity so the block follows a curved arc toward the target. Allow multiple blocks to move at the same time.
+Upgrade the Pygame block launcher so that each block is fired from the bottom-left corner and moves toward the position where the user clicks. 
 
 **Files Modified:**  
 - `pygame_block_launcher.py`  
